@@ -85,7 +85,7 @@ func NewLogger(items []logItem) {
 	case ConsoleEncoder:
 		cfg = NewConsoleLog().Config()
 	default:
-		cfg = NewConsoleLog().Config()
+		cfg = NewJsonLog().Config()
 	}
 
 	for _, v := range items {
@@ -124,7 +124,7 @@ func GetEncoder() Encoder {
 	case ConsoleEncoder:
 		return NewConsoleLog()
 	default:
-		return NewConsoleLog()
+		return NewJsonLog()
 	}
 }
 
