@@ -3,10 +3,10 @@ package logging
 import "testing"
 
 func TestNewLogger(t *testing.T) {
-	Init(Conf{"../../logs/fly.log", ConsoleEncoder})
+	Init(Conf{"../../logs/light.log", ConsoleEncoder})
 	defer Sync()
 	Debug("debug msg")
-	Debugf("debugf %s", "fly")
+	Debugf("debugf %s", "light")
 	Info("info msg")
 	Infof("infof %d", 10)
 	Warn("warn msg")
@@ -17,7 +17,9 @@ func TestNewLogger(t *testing.T) {
 }
 
 func TestFatalf(t *testing.T) {
-	Init(Conf{"../../logs/fly.log", JsonEncoder})
+	Init(Conf{"../../logs/light.log", JsonEncoder})
 	defer Sync()
+	Error("err msg")
+	Errorf("errorf %v", []int{1, 2, 3})
 	Fatalf("fatalf %v", map[string]interface{}{"name": "master"})
 }

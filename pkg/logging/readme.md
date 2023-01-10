@@ -5,15 +5,15 @@
 ### console
 
 ```
-[2022-06-21 18:39:40]   [info]  [main.main:36]  Start Web Server 
-[2022-06-21 18:42:00]   [info]  [fly/example/api/example/controller.Hello:21]   [X-Request-Id:62b659cd-373a-49e2-82dc-e63cac629a84]    hello, 司马老贼
-[2022-06-21 18:42:00]   [info]  [fly/pkg/httpcode.(*Req).Code:50]       [X-Request-Id:62b659cd-373a-49e2-82dc-e63cac629a84]    api: /v1/hello, run: 330.125µs, param: {"name":"司马老贼"}, code: 200
+[2023-01-10 15:33:53]	[debug]	[light/pkg/logging.TestNewLogger:8]	debug msg
+[2023-01-10 15:33:53]	[debug]	[light/pkg/logging.TestNewLogger:9]	debugf light
+[2023-01-10 15:33:53]	[info]	[light/pkg/logging.TestNewLogger:10]	info msg
 ```
 
 ### json
 
 ```
-{"level":"info","ts":"2022-06-21 18:43:09","caller":"main.main:36","msg":"Start Web Server "}
-{"level":"info","ts":"2022-06-21 18:43:13","caller":"fly/example/api/example/controller.Hello:21","msg":"hello, 司马老贼","X-Request-Id":"2e33e08f-4fe9-4424-aeb5-c26151559143"}
-{"level":"info","ts":"2022-06-21 18:43:13","caller":"fly/pkg/httpcode.(*Req).Code:50","msg":"api: /v1/hello, run: 305.458µs, param: {\"name\":\"司马老贼\"}, code: 200","X-Request-Id":"2e33e08f-4fe9-4424-aeb5-c26151559143"}
+{"level":"error","ts":"2023-01-10 15:35:02","caller":"light/pkg/logging.TestFatalf:22","msg":"err msg"}
+{"level":"error","ts":"2023-01-10 15:35:02","caller":"light/pkg/logging.TestFatalf:23","msg":"errorf [1 2 3]"}
+{"level":"fatal","ts":"2023-01-10 15:35:02","caller":"light/pkg/logging.TestFatalf:24","msg":"fatalf map[name:master]"}
 ```
