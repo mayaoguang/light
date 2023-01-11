@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 	"light/pkg/logging"
 	"light/pkg/safego/safe"
@@ -44,11 +45,11 @@ func parseConfig() {
 // WatchConfig 热监听.
 func WatchConfig() {
 	viper.WatchConfig()
-	//viper.OnConfigChange(func(e fsnotify.Event) {
-	//	// 配置文件发生变更之后会调用的回调函数
-	//	logging.Info("Conf file changed: " + e.Name)
-	//	parseConfig()
-	//})
+	viper.OnConfigChange(func(e fsnotify.Event) {
+		// 配置文件发生变更之后会调用的回调函数
+		logging.Info("Conf file changed: " + e.Name)
+		parseConfig()
+	})
 }
 
 // ShowConfig 展示服务器运行参数.
