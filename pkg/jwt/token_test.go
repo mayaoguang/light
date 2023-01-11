@@ -13,7 +13,7 @@ func TestCreateJWTToken(t *testing.T) {
 }
 
 func TestParseToken(t *testing.T) {
-	userId, err := ParseToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTIzNDU2In0.EcekJCyYcfUHWZXhw71rlrr8adnyqvqutB8cWAgm5O4")
+	userId, err := ParseToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTIzNDU2In0.ZXppwyOTgnGRb0eqKgqz9fQ25br53udppW_vIeSjqvY")
 	if err != nil {
 		t.Error(err)
 	}
