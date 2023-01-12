@@ -13,6 +13,7 @@ import (
 // 用来读取json 映射的结构
 type (
 	JsonConfig struct {
+		Debug      bool   // 是否调试
 		Addr       string // 对外服务地址
 		Port       string // 对外服务端口
 		RpcPort    string // rpc端口

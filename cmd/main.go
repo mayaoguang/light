@@ -3,14 +3,19 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 	"github.com/kataras/iris/v12"
 	"google.golang.org/grpc"
+	"light/internal/api"
 	"light/internal/config"
+	"light/internal/domain"
+	"light/internal/monitor"
+	"light/internal/rpc"
 	"light/pkg/logging"
 	"light/pkg/mq"
 	"light/pkg/mysql"
 	"light/pkg/redis"
+	"light/pkg/safego/safe"
+	"net"
 	"sync"
 	"time"
 )
@@ -29,7 +34,26 @@ func main() {
 		wg.Wait()
 		logging.Sync()
 	}()
-	fmt.Println("light main")
+
+	// 初始化业务表
+	domain.Init()
+
+	// 监控服务
+	safe.Go(func() {
+		monitor.Start(ctx)
+	})
+
+	// 初始化路由
+	api.Index(app)
+
+	// rpc
+	initRpc()
+
+	// 监听端口
+	logging.Info("start Web Server")
+	if err = app.Run(iris.Addr(":"+config.Config.Port), iris.WithoutInterruptHandler); err != nil {
+		logging.Fatal("start Web Server err: " + err.Error())
+	}
 }
 
 func init() {
@@ -63,5 +87,20 @@ func init() {
 		// 关闭所有主机
 		gServer.Stop()
 		_ = app.Shutdown(ctx)
+	})
+}
+
+// initRpc 初始化rpc.
+func initRpc() {
+	rpc.Index(gServer)
+	safe.Go(func() {
+		lis, err := net.Listen("tcp", ":"+config.Config.RpcPort)
+		if err != nil {
+			logging.Fatal("start Rpc Listen err: " + err.Error())
+		}
+		logging.Info("start Rpc Server ")
+		if err = gServer.Serve(lis); err != nil {
+			logging.Fatal("start Rpc Server err: " + err.Error())
+		}
 	})
 }
