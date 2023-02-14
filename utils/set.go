@@ -17,7 +17,7 @@ func (s *Set[T]) Len() int {
 	return len(*s)
 }
 
-// IsEmpty report wether s is empty
+// IsEmpty set is empty
 func (s *Set[T]) IsEmpty() bool {
 	return s.Len() == 0
 }
