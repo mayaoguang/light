@@ -17,7 +17,6 @@ type (
 )
 
 func TestAssign(t *testing.T) {
-
 	userM := &User{Name: "aa", Age: 18}
 	infoM := &Info{}
 	Assign(userM, infoM, "Age")
