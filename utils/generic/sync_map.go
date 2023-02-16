@@ -1,10 +1,7 @@
-package utils
+package generic
 
 import "sync"
 
-type DataType interface {
-	int | int64 | int32 | string
-}
 type GSyncMap[K comparable, V DataType] struct {
 	Lock sync.RWMutex
 	Data map[K]V

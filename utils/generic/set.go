@@ -1,4 +1,4 @@
-package utils
+package generic
 
 // Set is a set of elements
 type Set[T comparable] map[T]struct{}
