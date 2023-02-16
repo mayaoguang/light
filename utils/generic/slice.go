@@ -5,37 +5,48 @@ import (
 	"time"
 )
 
-// go v1.18 以上才能用
-// 把之前slice 的方法用泛型重新实现了一下，基本上速度比使用interface快出10倍左右
+// SliceEqual 比较两个slice 是否相等
+func SliceEqual[T comparable](f, s []T) (b bool) {
+	if len(f) != len(s) {
+		return false
+	}
+	for i := range f {
+		if f[i] != s[i] {
+			return false
+		}
+	}
+	return true
+}
 
 // SliceToMap 数组转map
 func SliceToMap[T comparable](s []T) (r map[T]struct{}) {
-	r = make(map[T]struct{})
-	for _, v := range s {
-		r[v] = struct{}{}
+	r = make(map[T]struct{}, len(s))
+	for i := range s {
+		r[s[i]] = struct{}{}
 	}
 	return
 }
 
 // InSlice val 是否在slice中
-func InSlice[T comparable](val T, s []T) (bool, int) {
-	for i, v := range s {
-		if val == v {
-			return true, i
+func InSlice[T comparable](val T, s []T) (b bool) {
+	for i := range s {
+		if val == s[i] {
+			return true
 		}
 	}
-	return false, -1
+	return false
 }
 
-// SliceUnique 数组唯一
-func SliceUnique[T comparable](s []T) (r []T) {
+// SliceToSet 数组唯一
+func SliceToSet[T comparable](s []T) (r []T) {
 	l := len(s)
 	if l <= 1 {
 		return s
 	}
 	m := make(map[T]struct{}, l)
 	r = make([]T, 0, l)
-	for _, v := range s {
+	for i := range s {
+		v := s[i]
 		if _, ok := m[v]; ok {
 			continue
 		}
@@ -62,19 +73,56 @@ func SliceIntersect[T comparable](f, s []T) (r []T) {
 		return []T{}
 	}
 
+	tmp := make(map[T]struct{}, lenF)
 	r = make([]T, 0, Min(lenF, lenS))
-	fMap := SliceToMap(f)
-	for _, v := range s {
-		if _, ok := fMap[v]; ok {
+
+	for i := range f {
+		tmp[f[i]] = struct{}{}
+	}
+	for i := range s {
+		v := s[i]
+		if _, ok := tmp[v]; ok {
 			r = append(r, v)
 		}
 	}
 	return
 }
 
-// SliceDiff 交集取反 (即在 f中且不在s的值+在s且不在f中的值)
-func SliceDiff[T comparable](f, s []T) (r []T) {
-	r = make([]T, 0)
+// SliceUnion 两个数组(泛型)取并集
+func SliceUnion[T comparable](f, s []T) (r []T) {
+	lenF, lenS := len(f), len(s)
+	if lenF == 0 {
+		return SliceToSet(s)
+	}
+	if lenS == 0 {
+		return SliceToSet(f)
+	}
+
+	tmp := make(map[T]struct{}, lenF+lenS)
+	r = make([]T, 0, lenF+lenS)
+
+	for i := range f {
+		v := f[i]
+		if _, ok := tmp[v]; ok {
+			continue
+		}
+		tmp[v] = struct{}{}
+		r = append(r, v)
+	}
+	for i := range s {
+		v := s[i]
+		if _, ok := tmp[v]; ok {
+			continue
+		}
+		tmp[v] = struct{}{}
+		r = append(r, v)
+	}
+	return
+}
+
+// SliceUnIntersect 交集取反 (即在 f中且s不在的值+在s且不在f中的值)
+func SliceUnIntersect[T comparable](f, s []T) (r []T) {
+	r = make([]T, len(f)+len(s))
 	fMap, sMap := SliceToMap(f), SliceToMap(s)
 	for k := range fMap {
 		if _, ok := sMap[k]; ok {
@@ -91,32 +139,13 @@ func SliceDiff[T comparable](f, s []T) (r []T) {
 	return
 }
 
-// SliceUnion 两个数组(泛型)取并集
-func SliceUnion[T comparable](f, s []T) (r []T) {
-	lenF, lenS := len(f), len(s)
-	if lenF == 0 {
-		return SliceUnique(s)
+// SliceReverse 翻转slice
+func SliceReverse[T any](s []T) []T {
+	if len(s) == 0 {
+		return s
 	}
-	if lenS == 0 {
-		return SliceUnique(f)
+	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+		s[i], s[j] = s[j], s[i]
 	}
-
-	tmp := make(map[T]struct{}, lenF+lenS)
-	r = make([]T, 0, lenF+lenS)
-
-	for _, v := range f {
-		if _, ok := tmp[v]; ok {
-			continue
-		}
-		tmp[v] = struct{}{}
-		r = append(r, v)
-	}
-	for _, v := range s {
-		if _, ok := tmp[v]; ok {
-			continue
-		}
-		tmp[v] = struct{}{}
-		r = append(r, v)
-	}
-	return
+	return s
 }

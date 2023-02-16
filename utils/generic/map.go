@@ -1,7 +1,7 @@
 package generic
 
 // MapEqual 比对两个map
-func MapEqual[K comparable, V comparable](s, t map[K]V) bool {
+func MapEqual[K comparable, V comparable](s, t map[K]V) (b bool) {
 	if len(s) != len(t) {
 		return false
 	}
@@ -14,7 +14,7 @@ func MapEqual[K comparable, V comparable](s, t map[K]V) bool {
 }
 
 // MapEqualPred 按照给定的比较方法比较两个map
-func MapEqualPred[K comparable, V any](s, t map[K]V, equalFunc func(s, t V) bool) bool {
+func MapEqualPred[K comparable, V any](s, t map[K]V, equalFunc func(s, t V) bool) (b bool) {
 	if len(s) != len(t) {
 		return false
 	}
@@ -27,29 +27,38 @@ func MapEqualPred[K comparable, V any](s, t map[K]V, equalFunc func(s, t V) bool
 }
 
 // MapKeys 获取keys
-func MapKeys[K comparable, V any](m map[K]V) []K {
-	keys := make([]K, len(m))
+func MapKeys[K comparable, V any](m map[K]V) (r []K) {
+	r = make([]K, len(m))
 	i := 0
 	for k := range m {
-		keys[i] = k
+		r[i] = k
 		i++
 	}
-	return keys
+	return r
 }
 
-// MapValues 获取values
-func MapValues[K comparable, V any](m map[K]V) []V {
-	values := make([]V, len(m))
+// MapValues 获取values切片
+func MapValues[K comparable, V any](m map[K]V) (r []V) {
+	r = make([]V, len(m))
 	i := 0
 	for _, v := range m {
-		values[i] = v
+		r[i] = v
 		i++
 	}
-	return values
+	return r
+}
+
+// MapValuesMap 获取values map
+func MapValuesMap[K comparable, V comparable](m map[K]V) (r map[V]struct{}) {
+	r = make(map[V]struct{}, len(m))
+	for _, v := range m {
+		r[v] = struct{}{}
+	}
+	return r
 }
 
 // MapContainKeys 查看一批key 是否在map 中
-func MapContainKeys[K comparable, V any](m map[K]V, keys ...K) bool {
+func MapContainKeys[K comparable, V any](m map[K]V, keys ...K) (b bool) {
 	for _, k := range keys {
 		if _, exists := m[k]; !exists {
 			return false
@@ -59,16 +68,10 @@ func MapContainKeys[K comparable, V any](m map[K]V, keys ...K) bool {
 }
 
 // MapContainValues 查看一批values 是否在map中
-func MapContainValues[K comparable, V comparable](m map[K]V, values ...V) bool {
+func MapContainValues[K comparable, V comparable](m map[K]V, values ...V) (b bool) {
+	vMap := MapValuesMap(m)
 	for _, v := range values {
-		found := false
-		for _, x := range m {
-			if x == v {
-				found = true
-				break
-			}
-		}
-		if !found {
+		if _, ok := vMap[v]; !ok {
 			return false
 		}
 	}
@@ -106,11 +109,19 @@ func MapPop[K comparable, V any](m map[K]V, k K, defaultVal V) V {
 	return defaultVal
 }
 
-// MapUnionKeys 获取一批map的key
-func MapUnionKeys[K comparable, V any](m map[K]V, ms ...map[K]V) []K {
-	keys := MapKeys(m)
+// MapUnionKeys 一批map 取所有不重复的key
+func MapUnionKeys[K comparable, V any](m map[K]V, ms ...map[K]V) (r []K) {
+	r = MapKeys(m)
 	for _, v := range ms {
-		keys = SliceUnion(keys, MapKeys(v))
+		r = SliceUnion(r, MapKeys(v))
 	}
-	return keys
+	return r
+}
+
+func MapIntersectionKeys[K comparable, V any](m map[K]V, ms ...map[K]V) (r []K) {
+	r = MapKeys(m)
+	for _, v := range ms {
+		r = SliceIntersect(r, MapKeys(v))
+	}
+	return
 }
