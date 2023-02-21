@@ -149,3 +149,35 @@ func SliceReverse[T any](s []T) []T {
 	}
 	return s
 }
+
+// SliceChunk 根据size 大小切割切片
+func SliceChunk[T any](s []T, size int) (r [][]T) {
+	if size <= 0 {
+		return [][]T{}
+	}
+
+	r = make([][]T, 0, len(s)/size+1)
+	for {
+		if len(s) == 0 {
+			break
+		}
+		if len(s) < size {
+			size = len(s)
+		}
+		r = append(r, s[0:size])
+		s = s[size:]
+	}
+	return r
+}
+
+func SliceChunkByCount[T any](s []T, count int) (r [][]T) {
+	if count <= 0 {
+		return [][]T{}
+	}
+	size := len(s) / count
+	if size*count < len(s) {
+		size++
+	}
+
+	return SliceChunk(s, size)
+}
