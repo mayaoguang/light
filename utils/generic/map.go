@@ -59,8 +59,8 @@ func MapValuesMap[K comparable, V comparable](m map[K]V) (r map[V]struct{}) {
 
 // MapContainKeys 查看一批key 是否在map 中
 func MapContainKeys[K comparable, V any](m map[K]V, keys ...K) (b bool) {
-	for _, k := range keys {
-		if _, exists := m[k]; !exists {
+	for i := range keys {
+		if _, exists := m[keys[i]]; !exists {
 			return false
 		}
 	}
@@ -70,8 +70,8 @@ func MapContainKeys[K comparable, V any](m map[K]V, keys ...K) (b bool) {
 // MapContainValues 查看一批values 是否在map中
 func MapContainValues[K comparable, V comparable](m map[K]V, values ...V) (b bool) {
 	vMap := MapValuesMap(m)
-	for _, v := range values {
-		if _, ok := vMap[v]; !ok {
+	for i := range values {
+		if _, ok := vMap[values[i]]; !ok {
 			return false
 		}
 	}
@@ -118,6 +118,7 @@ func MapUnionKeys[K comparable, V any](m map[K]V, ms ...map[K]V) (r []K) {
 	return r
 }
 
+// MapIntersectionKeys 一批map 取所有key 的交集
 func MapIntersectionKeys[K comparable, V any](m map[K]V, ms ...map[K]V) (r []K) {
 	r = MapKeys(m)
 	for _, v := range ms {
