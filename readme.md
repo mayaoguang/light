@@ -2,7 +2,7 @@
 
 ## 简介
 
-    根据最近几年的golang开发，封装常用数据库组件及应用示例，方便搭建新的服务使用。
+    由于微服务架构需要经常创建新服务，根据多年的golang经验，封装常用数据库组件及应用示例，方便搭建新的服务使用。
 参考 [Go程序布局](https://github.com/golang-standards/project-layout/blob/master/README_zh.md)
 
 ## 项目结构
