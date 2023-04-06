@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"log"
 	"time"
 )
 
@@ -87,7 +88,7 @@ func (ch *Channel) QueueBind(name, key, exchange string) (err error) {
 }
 
 // NewConsumer 实例化一个消费者, 会单独用一个channel.
-func NewConsumer(queue string, handler func([]byte) error) error {
+func NewConsumer(queue string, handler func(amqp.Delivery) error) error {
 	ch, err := defaultConn.Channel()
 	if err != nil {
 		return fmt.Errorf("new mq channel err: %v", err)
@@ -99,12 +100,11 @@ func NewConsumer(queue string, handler func([]byte) error) error {
 	}
 
 	for msg := range deliveries {
-		err = handler(msg.Body)
+		err = handler(msg)
 		if err != nil {
-			_ = msg.Reject(true)
+			log.Printf("could not consume message: %+v with error: %v", msg, err)
 			continue
 		}
-		_ = msg.Ack(false)
 	}
 
 	return nil

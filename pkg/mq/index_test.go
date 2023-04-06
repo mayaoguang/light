@@ -1,7 +1,7 @@
 package mq
 
 import (
-	"fmt"
+	amqp "github.com/rabbitmq/amqp091-go"
 	"log"
 	"testing"
 	"time"
@@ -41,10 +41,7 @@ func TestChannel_Publish(t *testing.T) {
 	}
 
 	go func() {
-		if err := NewConsumer(queueName, func(body []byte) error {
-			fmt.Println("consume msg :" + string(body))
-			return nil
-		}); err != nil {
+		if err := NewConsumer(queueName, MsgProcess); err != nil {
 			log.Fatalf("consume err: %v", err)
 		}
 	}()
@@ -100,10 +97,7 @@ func TestChannel_PublishWithDelay(t *testing.T) {
 	}
 
 	go func() {
-		if err := NewConsumer(queueName, func(body []byte) error {
-			fmt.Println(fmt.Sprintf("consumer msg: %s, ts: %s", string(body), nowTime()))
-			return nil
-		}); err != nil {
+		if err := NewConsumer(queueName, MsgProcess); err != nil {
 			log.Fatalf("consume err: %v", err)
 		}
 	}()
@@ -118,4 +112,12 @@ func TestChannel_PublishWithDelay(t *testing.T) {
 
 	time.Sleep(time.Minute)
 	t.Log("end")
+}
+
+func MsgProcess(delivery amqp.Delivery) (err error) {
+	err = nil
+	defer func() {
+		AckMsg(&delivery, err)
+	}()
+	return err
 }
