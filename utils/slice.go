@@ -123,3 +123,31 @@ func SliceDiff(f, s interface{}) (r []interface{}) {
 	}
 	return
 }
+
+// SortMerge 有序数组合并并去重
+func SortMerge(s1, s2 []int) []int {
+	l := len(s1) + len(s2)
+	r := make([]int, 0, l)
+	i, j := 0, 0
+	for {
+		if i == len(s1) {
+			r = append(r, s2[j:]...)
+			break
+		}
+		if j == len(s2) {
+			r = append(r, s1[i:]...)
+		}
+		if s1[i] < s2[j] {
+			r = append(r, s1[i])
+			i++
+		} else if s1[i] == s2[j] {
+			j++
+			continue
+		} else {
+			r = append(r, s2[j])
+			j++
+		}
+
+	}
+	return r
+}
