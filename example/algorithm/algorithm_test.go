@@ -39,3 +39,19 @@ func TestTree(t *testing.T) {
 	result := tree1.Find(6)
 	fmt.Println(result)
 }
+
+func TestIsSubsequence(t *testing.T) {
+	fmt.Println(isSubsequence("b", "c"))
+}
+
+func TestReversePrefix(t *testing.T) {
+	fmt.Println(ReversePrefix("abcdefd", 'x'))
+}
+
+func TestMaximumGap(t *testing.T) {
+	fmt.Println(MaximumGap([]int{6, 6, 10, 1}))
+}
+
+func TestAllSub(t *testing.T) {
+	fmt.Println(dp.Permutation("abc"))
+}
