@@ -3,6 +3,7 @@ package algorithm
 import (
 	"fmt"
 	"light/example/algorithm/dp"
+	"light/example/algorithm/list"
 	"light/example/algorithm/tree"
 	"testing"
 )
@@ -54,4 +55,18 @@ func TestMaximumGap(t *testing.T) {
 
 func TestAllSub(t *testing.T) {
 	fmt.Println(dp.Permutation("abc"))
+}
+
+func TestList(t *testing.T) {
+	l4 := list.ListNode{Val: 3, Next: nil}
+	l3 := list.ListNode{Val: 1, Next: &l4}
+	l2 := list.ListNode{Val: 2, Next: &l3}
+	l1 := list.ListNode{Val: 4, Next: &l2}
+	head := list.ListNode{Next: &l1}
+	n := list.SortList(&head)
+	node := n.Next
+	for node != nil {
+		fmt.Println(node.Val)
+		node = node.Next
+	}
 }
