@@ -70,3 +70,7 @@ func TestList(t *testing.T) {
 		node = node.Next
 	}
 }
+
+func TestMaxProfit(t *testing.T) {
+	fmt.Println(dp.MaxProfit([]int{6, 1, 3, 2, 4, 5}))
+}
