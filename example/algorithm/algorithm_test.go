@@ -3,6 +3,7 @@ package algorithm
 import (
 	"fmt"
 	"light/example/algorithm/dp"
+	"light/example/algorithm/list"
 	"light/example/algorithm/tree"
 	"testing"
 )
@@ -38,4 +39,38 @@ func TestTree(t *testing.T) {
 	}
 	result := tree1.Find(6)
 	fmt.Println(result)
+}
+
+func TestIsSubsequence(t *testing.T) {
+	fmt.Println(isSubsequence("b", "c"))
+}
+
+func TestReversePrefix(t *testing.T) {
+	fmt.Println(ReversePrefix("abcdefd", 'x'))
+}
+
+func TestMaximumGap(t *testing.T) {
+	fmt.Println(MaximumGap([]int{6, 6, 10, 1}))
+}
+
+func TestAllSub(t *testing.T) {
+	fmt.Println(dp.Permutation("abc"))
+}
+
+func TestList(t *testing.T) {
+	l4 := list.ListNode{Val: 3, Next: nil}
+	l3 := list.ListNode{Val: 1, Next: &l4}
+	l2 := list.ListNode{Val: 2, Next: &l3}
+	l1 := list.ListNode{Val: 4, Next: &l2}
+	head := list.ListNode{Next: &l1}
+	n := list.SortList(&head)
+	node := n.Next
+	for node != nil {
+		fmt.Println(node.Val)
+		node = node.Next
+	}
+}
+
+func TestMaxProfit(t *testing.T) {
+	fmt.Println(dp.MaxProfit([]int{6, 1, 3, 2, 4, 5}))
 }
