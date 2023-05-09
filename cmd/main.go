@@ -5,45 +5,22 @@ import (
 	"sync"
 )
 
-// 多线程处理模型
+// 多线程处理模型, 10个协程 处理数据
 func main() {
-	data := make(chan int, 20)
-	results := make(chan int, 20)
-	var wg sync.WaitGroup
+	count, sum := 10, 20   // 最大支持并发 sum任务总数
+	wg := sync.WaitGroup{} // 控制主协程等待所有子协程执行完之后再退出。
 
-	// 生产数据
-	for i := 0; i < 20; i++ {
-		data <- i
-	}
-	close(data)
+	c := make(chan struct{}, count) // 控制任务并发的chan
+	defer close(c)
 
-	// 处理数据
-	for i := 0; i < 10; i++ {
+	for i := 0; i < sum; i++ {
 		wg.Add(1)
-		go func() {
+		c <- struct{}{} // 作用类似于waitgroup.Add(1)
+		go func(j int) {
 			defer wg.Done()
-			for d := range data {
-				results <- process(d)
-			}
-		}()
+			fmt.Println(j)
+			<-c // 执行完毕，释放资源
+		}(i)
 	}
-
-	// 等待所有任务完成
-	go func() {
-		wg.Wait()
-		close(results)
-	}()
-
-	// 输出结果
-	sum := 0
-	for r := range results {
-		sum += r
-	}
-	fmt.Println("结果：", sum)
-}
-
-func process(d int) int {
-	// 模拟处理数据
-	fmt.Println(d)
-	return d * d
+	wg.Wait()
 }
