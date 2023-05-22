@@ -1,7 +1,7 @@
 {
   "debug": true,
   "addr": "0.0.0.0",
-  "port": "6666",
+  "port": "9999",
   "rpcPort": "9527",
   "isMonitor": true,
   "log": {
