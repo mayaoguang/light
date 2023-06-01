@@ -1,6 +1,7 @@
 package safe
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"runtime/debug"
@@ -17,6 +18,18 @@ func Go(f func()) {
 		}()
 		f()
 	}()
+}
+
+func GoWithCtx(ctx context.Context, f func(ctx context.Context)) {
+	go func(ctx context.Context) {
+		defer func() {
+			if err := recover(); err != nil {
+				log.Printf("recover err:%+v", err)
+				debug.PrintStack()
+			}
+		}()
+		f(ctx)
+	}(ctx)
 }
 
 // GoWithField 安全go程且携带参数
