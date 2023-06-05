@@ -18,27 +18,27 @@ func (s *LockSlice[T]) Len() int {
 	return len(s.array)
 }
 
-func (s *LockSlice[T]) Clear() *LockSlice[T] {
+func (s *LockSlice[T]) Clear() {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	s.array = s.array[0:0]
-	return s
+	return
 }
 
-func (s *LockSlice[T]) Append(v T) *LockSlice[T] {
+func (s *LockSlice[T]) Append(v T) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	s.array = append(s.array, v)
-	return s
+	return
 }
 
-func (s *LockSlice[T]) ProcessAndClear(f func([]T) error) (*LockSlice[T], error) {
+func (s *LockSlice[T]) ProcessAndClear(f func([]T) error) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	if err := f(s.array); err != nil {
-		return s, err
+		return err
 	}
 
 	s.array = s.array[0:0]
-	return s, nil
+	return nil
 }
