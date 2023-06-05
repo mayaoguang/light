@@ -12,6 +12,10 @@ import (
 
 // 多线程处理模型, 10个协程 处理数据
 func main() {
+	StartConsumer()
+}
+
+func StartConsumer() {
 	s := Su{
 		messageChan: make(chan []int, 10),
 		processChan: make(chan int),

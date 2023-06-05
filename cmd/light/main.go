@@ -52,7 +52,7 @@ func main() {
 	// 监听端口
 	logging.Info("start Web Server")
 	if err = app.Run(iris.Addr(":"+config.Config.Port), iris.WithoutInterruptHandler); err != nil {
-		logging.Fatal("start Web Server err: " + err.Error())
+		logging.Error("start Web Server err: " + err.Error())
 	}
 }
 
