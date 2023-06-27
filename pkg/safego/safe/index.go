@@ -3,8 +3,10 @@ package safe
 import (
 	"context"
 	"fmt"
+	mqSdk "github.com/aliyunmq/mq-http-go-sdk"
 	"log"
 	"runtime/debug"
+	"sync"
 )
 
 // Go 安全go程.
@@ -43,4 +45,30 @@ func GoWithField(f func(val interface{}), val interface{}) {
 		}()
 		f(val)
 	}(val)
+}
+
+func GoWithCtxWg(ctx context.Context, wg *sync.WaitGroup,
+	f func(ctx context.Context, wg *sync.WaitGroup)) {
+	go func(ctx context.Context, wg *sync.WaitGroup) {
+		defer func() {
+			if err := recover(); err != nil {
+				log.Println(fmt.Sprintf("GoWithCtxWg recover err:%+v", err))
+				debug.PrintStack()
+			}
+		}()
+		f(ctx, wg)
+	}(ctx, wg)
+}
+
+func GoWithMqMsg(ch <-chan struct{}, wg *sync.WaitGroup, message mqSdk.ConsumeMessageEntry,
+	f func(ch <-chan struct{}, wg *sync.WaitGroup, message mqSdk.ConsumeMessageEntry)) {
+	go func(ch <-chan struct{}, wg *sync.WaitGroup, message mqSdk.ConsumeMessageEntry) {
+		defer func() {
+			if err := recover(); err != nil {
+				log.Println(fmt.Sprintf("GoWithMqMsg recover err:%+v", err))
+				debug.PrintStack()
+			}
+		}()
+		f(ch, wg, message)
+	}(ch, wg, message)
 }

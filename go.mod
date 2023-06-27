@@ -3,6 +3,7 @@ module light
 go 1.18
 
 require (
+	github.com/aliyunmq/mq-http-go-sdk v1.0.3
 	github.com/dlclark/regexp2 v1.7.0
 	github.com/fsnotify/fsnotify v1.5.4
 	github.com/go-gomail/gomail v0.0.0-20160411212932-81ebce5c23df
@@ -42,16 +43,19 @@ require (
 	github.com/CloudyKit/fastprinter v0.0.0-20200109182630-33d98a066a53 // indirect
 	github.com/CloudyKit/jet/v6 v6.1.0 // indirect
 	github.com/Shopify/goreferrer v0.0.0-20210630161223-536fa16abd6f // indirect
-	github.com/andybalholm/brotli v1.0.4 // indirect
+	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385 // indirect
+	github.com/facebookgo/stack v0.0.0-20160209184415-751773369052 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/flosch/pongo2/v4 v4.0.2 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect
 	github.com/gobwas/pool v0.2.1 // indirect
 	github.com/gobwas/ws v1.1.0 // indirect
+	github.com/gogap/errors v0.0.0-20210818113853-edfbba0ddea9 // indirect
+	github.com/gogap/stack v0.0.0-20150131034635-fef68dddd4f8 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/uuid v1.3.0 // indirect
@@ -69,7 +73,7 @@ require (
 	github.com/kataras/pio v0.0.10 // indirect
 	github.com/kataras/sitemap v0.0.5 // indirect
 	github.com/kataras/tunnel v0.0.4 // indirect
-	github.com/klauspost/compress v1.15.9 // indirect
+	github.com/klauspost/compress v1.16.3 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/lib/pq v1.10.7 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
@@ -105,16 +109,17 @@ require (
 	github.com/tdewolff/minify/v2 v2.12.0 // indirect
 	github.com/tdewolff/parse/v2 v2.6.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
+	github.com/valyala/fasthttp v1.48.0 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xuri/efp v0.0.0-20220603152613-6918739fd470 // indirect
 	github.com/xuri/nfp v0.0.0-20220409054826-5e722a1d9e22 // indirect
 	github.com/yosssi/ace v0.0.5 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
-	golang.org/x/crypto v0.5.0 // indirect
-	golang.org/x/net v0.5.0 // indirect
-	golang.org/x/sys v0.4.0 // indirect
-	golang.org/x/text v0.6.0 // indirect
+	golang.org/x/crypto v0.7.0 // indirect
+	golang.org/x/net v0.8.0 // indirect
+	golang.org/x/sys v0.6.0 // indirect
+	golang.org/x/text v0.8.0 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/genproto v0.0.0-20210602131652-f16073e35f0c // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
