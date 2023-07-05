@@ -28,7 +28,7 @@ func MapEqualPred[K comparable, V any](s, t map[K]V, equalFunc func(s, t V) bool
 
 // MapKeys 获取keys
 func MapKeys[K comparable, V any](m map[K]V) (r []K) {
-	r = make([]K, len(m))
+	r = make([]K, 0, len(m))
 	i := 0
 	for k := range m {
 		r[i] = k
@@ -39,7 +39,7 @@ func MapKeys[K comparable, V any](m map[K]V) (r []K) {
 
 // MapValues 获取values切片
 func MapValues[K comparable, V any](m map[K]V) (r []V) {
-	r = make([]V, len(m))
+	r = make([]V, 0, len(m))
 	i := 0
 	for _, v := range m {
 		r[i] = v

@@ -16,7 +16,7 @@ const (
 
 // RandStr 生成随机字符串.
 func RandStr(size int, kind KindType) []byte {
-	iKind, kinds, result := kind, [][]int{{10, 48}, {26, 97}, {26, 65}}, make([]byte, size)
+	iKind, kinds, result := kind, [][]int{{10, 48}, {26, 97}, {26, 65}}, make([]byte, 0, size)
 	isAll := kind > 2 || kind < 0
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < size; i++ {

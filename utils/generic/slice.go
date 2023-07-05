@@ -122,7 +122,7 @@ func SliceUnion[T comparable](f, s []T) (r []T) {
 
 // SliceUnIntersect 交集取反 (即在 f中且s不在的值+在s且不在f中的值)
 func SliceUnIntersect[T comparable](f, s []T) (r []T) {
-	r = make([]T, len(f)+len(s))
+	r = make([]T, 0, len(f)+len(s))
 	fMap, sMap := SliceToMap(f), SliceToMap(s)
 	for k := range fMap {
 		if _, ok := sMap[k]; ok {

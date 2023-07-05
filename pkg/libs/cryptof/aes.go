@@ -26,7 +26,7 @@ func (slf *Aes) CFBEncrypt(plaintext string, key []byte) (string, error) {
 		return "", err
 	}
 
-	cipherText := make([]byte, aes.BlockSize+len(plaintext))
+	cipherText := make([]byte, 0, aes.BlockSize+len(plaintext))
 	iv := cipherText[:aes.BlockSize]
 
 	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
@@ -76,7 +76,7 @@ func (slf *Aes) CBCEncrypt(plaintext string, key, iv []byte) (string, error) {
 	}
 	plaintextByte = slf.PKCS7Padding(plaintextByte, blockSize)
 	blockMode := cipher.NewCBCEncrypter(block, iv)
-	crypted := make([]byte, len(plaintextByte))
+	crypted := make([]byte, 0, len(plaintextByte))
 	blockMode.CryptBlocks(crypted, plaintextByte)
 
 	return base64.StdEncoding.EncodeToString(crypted), nil
@@ -95,7 +95,7 @@ func (slf *Aes) CBCDecrypt(ciphertext string, key, iv []byte) (string, error) {
 		iv = key[:blockSize]
 	}
 	blockMode := cipher.NewCBCDecrypter(block, iv[:blockSize])
-	origData := make([]byte, len(ciphertextByte))
+	origData := make([]byte, 0, len(ciphertextByte))
 	blockMode.CryptBlocks(origData, ciphertextByte)
 	origData = slf.PKCS7UnPadding(origData)
 

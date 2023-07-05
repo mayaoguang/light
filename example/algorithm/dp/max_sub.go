@@ -5,7 +5,7 @@ func LengthOfASC(nums []int) int {
 	if len(nums) < 1 {
 		return 0
 	}
-	dp := make([]int, len(nums))
+	dp := make([]int, 0, len(nums))
 	result := 1
 	for i := 0; i < len(nums); i++ {
 		dp[i] = 1
@@ -29,9 +29,9 @@ func max(a, b int) int {
 func LongestCommonSubsequence(text1 string, text2 string) int {
 	h := len(text1) + 1
 	w := len(text2) + 1
-	m := make([][]int, h)
+	m := make([][]int, 0, h)
 	for i := 0; i < h; i++ {
-		m[i] = make([]int, w)
+		m[i] = make([]int, 0, w)
 	}
 
 	for i := 1; i < h; i++ {
