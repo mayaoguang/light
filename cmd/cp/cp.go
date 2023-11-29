@@ -1,5 +1,7 @@
-package cp
+package main
+
+import "fmt"
 
 func main() {
-
+	fmt.Println("=========")
 }
